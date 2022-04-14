@@ -1,0 +1,36 @@
+#配置端口
+server:
+  port: 8080
+
+#配置项目名称
+spring:
+  application:
+    name: sport
+    #配置mysql数据原
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/sport?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#配置mybatis
+mybatis:
+  # mapper接口找的xml文件所在地
+  mapper-locations: classpath:mapper/*.xml
+  # 配置一下扫描的实体
+  type-aliases-package: com.example.entity
+  # mybatis 内置的配置
+  configuration:
+    # sql日志打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名
+    map-underscore-to-camel-case: true
+#JWT
+jwt:
+  # 请求头
+  tokenHeader: Authorization
+  # 签名加盐
+  secret: iwqjhda8232bjgh432
+  #JWT过期时间(60*60*24*7) 半个小时 7天
+  expiration: 604800
+  # token头部
+  tokenHead: 'Bearer '

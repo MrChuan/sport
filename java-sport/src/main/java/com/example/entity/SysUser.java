@@ -11,19 +11,6 @@ import java.util.List;
 
 /**
  * @author chuan
- *
- * id bigint(20) not null primary key auto_increment comment'主键',
- * 	user_name varchar(20) comment'登录名',
- * 	password varchar(20) comment'密码',
- * 	nick_name varchar(20) comment'昵称',
- * 	sex tinyint(1) comment'性别(0男,1女)',
- * 	avatar varchar(100) comment'用户头像',
- * 	address varchar(100) comment'地址',
- * 	open_id varchar(100) comment'微信小程序openID',
- * 	status tinyint(1) comment'状态，是否禁用',
- * 	amdin tinyint(1) comment'是否是管理员',
- * 	phone_number varchar(20) comment'手机号'
- *
  */
 @Data
 public class SysUser implements UserDetails {

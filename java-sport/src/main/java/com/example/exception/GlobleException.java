@@ -24,6 +24,7 @@ public class GlobleException {
         log.error("系统运行时异常--->{}",e.getMessage());
         return Result.fail(e.getMessage());
     }
+
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = AccessDeniedException.class)
     public Result exception(AccessDeniedException e){

@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-
+@EnableKnife4j
 public class SwaggerConfig {
     /**
      * 这个方法的返回值交给Spring 管理
@@ -36,7 +37,7 @@ public class SwaggerConfig {
                 //通过 apis()方法设置哪个包中内容被扫描:(第一种方式)扫描所有有注解的api，用这种方式更灵活
                 .apis(RequestHandlerSelectors.basePackage("com.example.controller"))
                 // (第二种方式)扫描指定包中的swagger注解
-                //.apis(RequestHandlerSelectors.basePackage("com.hubiao.pay.merchant.controller"))
+                //.apis(RequestHandlerSelectors.basePackage("com.example.controller"))
                 // (第三种方式)扫描所有
                 //.apis(RequestHandlerSelectors.any())
 
@@ -49,6 +50,7 @@ public class SwaggerConfig {
 
     /**
      * 该套 API 说明，包含作者、简介、版本、host、服务URL
+     * 设置文档信息
      * @return
      * 接口信息设置：ApiInfo
      */
@@ -61,6 +63,11 @@ public class SwaggerConfig {
                 .build();
 
     }
+
+    /**
+     * 设置请求信息
+     * @return
+     */
     private List<ApiKey> securitySchemes(){
         List<ApiKey> list = new ArrayList<>();
         ApiKey key = new ApiKey("Authorization","Authorization","Header");
@@ -68,12 +75,21 @@ public class SwaggerConfig {
         return list;
     }
 
+    /**
+     * 配置security对swagger的测试权限
+     * @return
+     */
     public List<SecurityContext> securityContexts(){
         List<SecurityContext> list = new ArrayList<>();
         list.add(getContextByPath("/hello/.*"));
         return list;
     }
 
+    /**
+     *得到授权路径
+     * @param pathRegex
+     * @return
+     */
     private SecurityContext getContextByPath(String pathRegex) {
         return SecurityContext
                 .builder()
@@ -82,6 +98,10 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * 给swagger授权，可以进行接口测试
+     * @return
+     */
     private List<SecurityReference> defaultAuth() {
         List<SecurityReference> list = new ArrayList<>();
         AuthorizationScope scope = new AuthorizationScope("global","accessEverything");

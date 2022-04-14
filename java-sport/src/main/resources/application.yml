@@ -4,6 +4,9 @@ server:
 
 #配置项目名称
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: sport
     #配置mysql数据原

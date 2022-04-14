@@ -1,5 +1,6 @@
 package com.example.config.security;
 
+import com.example.config.security.contents.SecurityContents;
 import com.example.config.security.handle.JwtAccessDeniedHandle;
 import com.example.config.security.handle.JwtAuthenticationEntryPoint;
 import com.example.config.security.handle.JwtAuthenticationFilter;
@@ -50,8 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                //
-                .mvcMatchers("/user/login");
+                .mvcMatchers(SecurityContents.WHITE_LIST);
     }
 
     /**

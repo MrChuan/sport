@@ -53,8 +53,10 @@ export default {
     submit(){
       this.$refs.from.validate((valid)=>{
         if(valid){
-          //如果成功
-          alert("11111");
+          //数据校验成功，则向后端发送请求，进行登陆
+          this.$ajax.post('/user/login',this.from).then((res) =>{
+            //console.log(res);
+          })
         }else {
           console.log("error =数据校验失败");
           return this.$message.error("数据校验失败");

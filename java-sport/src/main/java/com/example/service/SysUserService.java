@@ -1,9 +1,12 @@
 package com.example.service;
 
+import com.example.entity.SysRole;
 import com.example.entity.SysUser;
 import com.example.util.Result;
 import com.example.vo.LoginVo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 用户操作逻辑业务接口
@@ -29,4 +32,8 @@ public interface SysUserService {
      */
     SysUser findByUsername(String username);
 
+
+
+
+    List<SysRole> findRolesByUserId(Long userId);
 }

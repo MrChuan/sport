@@ -51,23 +51,21 @@
         select * from sys_user where username = #{username}
     </select>
     <!-- 根据用户ID查询角色信息-->
-    <select id="findRoles" parameterType="int" resultMap="roleMap">
+    <select id="findRoles" parameterType="long" resultMap="roleMap">
         select * from sys_role where id in (select role_id from sys_roles where user_id = #{id})
     </select>
 
     <!-- 根据角色ID查询数据权限信息-->
     <select id="findPermission" parameterType="int" resultMap="permissionMap" >
-        select * from sys_permission where  id in( select permission_id from sys_permission where role_id = #{id})
+        select * from sys_permission where  id in( select permission_id from sys_permissions where role_id = #{id})
     </select>
 
     <!-- 根据角色ID查询菜单信息 -->
     <select id="findMenus"  parameterType="int" resultMap="menuMap">
-        select * from sys_menu where id in( select menu_id from sys_menu where role_id = #{id}) and parent_id is null
+        select * from sys_menu where id in( select menu_id from sys_menus where role_id = #{id}) and parent_id is null
     </select>
 
-    <select id="findChildrenMenu" parameterType="int" resultType="com.example.entity.SysMenu">
-        select * from sys_menu where id = #{id}
-    </select>
+
 
 
 </mapper>

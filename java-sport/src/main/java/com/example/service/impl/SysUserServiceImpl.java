@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import com.example.config.security.handle.service.UserDetailsServiceImpl;
+import com.example.entity.SysRole;
 import com.example.entity.SysUser;
 import com.example.mapper.SysUserMapper;
 import com.example.service.SysUserService;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,8 +60,6 @@ public class SysUserServiceImpl implements SysUserService {
         log.info("1.登录");
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginvo.getUsername());
         log.info("2.判断账号密码----");
-
-
         if (null == userDetails || !passwordEncoder.matches(loginvo.getPassword(),userDetails.getPassword())){
             return Result.fail("账号或者密码错误，请重新输入！");
         }
@@ -85,6 +85,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser findByUsername(String username) {
         return sysUserMapper.findByUsername(username);
+    }
+
+    @Override
+    public List<SysRole> findRolesByUserId(Long userId) {
+        return sysUserMapper.findRoles(userId);
     }
 
 

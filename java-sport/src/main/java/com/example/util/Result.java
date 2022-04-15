@@ -43,6 +43,10 @@ public class Result implements Serializable {
         return new Result(true,message,data);
     }
 
+    public static Result success(String message){
+        return new Result(true,message);
+    }
+
     /**
      * 响应失败
      */

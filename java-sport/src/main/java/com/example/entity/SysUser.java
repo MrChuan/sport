@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,26 +18,37 @@ public class SysUser implements UserDetails {
 
     private long id;
 
+    @ApiModelProperty(value = "用户名")
     private String username;
 
+    @ApiModelProperty(value = "密码")
     private String password;
 
+    @ApiModelProperty(value = "昵称")
     private String nickname;
 
+    @ApiModelProperty(value = "性别")
     private Integer sex;
 
+    @ApiModelProperty(value = "微信获取头像")
     private String avatar;
 
+    @ApiModelProperty(value = "地址")
     private String address;
 
+    @ApiModelProperty(value = "获取微信小程序id")
     private String openId;
 
+    @ApiModelProperty(value = "状态")
     private boolean status;
 
+    @ApiModelProperty(value = "是否是管理权限")
     private boolean admin;
 
+    @ApiModelProperty(value = "电话号码")
     private String phonenumber;
 
+    @ApiModelProperty(value = "角色列表")
     private List<SysRole> roles;
 
     /**

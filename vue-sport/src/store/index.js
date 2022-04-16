@@ -4,9 +4,17 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    token:sessionStorage.getItem('token')
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+      setToken(state,data){
+        state.token = data;
+        console.log('vue中的token',data);
+        sessionStorage.setItem('token',data);
+      }
+  },
   actions: {},
   modules: {},
 });

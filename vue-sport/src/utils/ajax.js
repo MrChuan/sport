@@ -6,8 +6,13 @@ import {Message} from "element-ui";
 1.先引入包
 2.
 */
+/*
+ajax实例，并设置请求超时时间
+如果不设置，前端则会报400
+ */
 const ajax = axios.create({
-    baseURL:'http://localhost:8080'
+    baseURL:'http://localhost:8080',
+    timeout:100000
 });
 
 /*
@@ -15,7 +20,12 @@ const ajax = axios.create({
  */
 
 ajax.interceptors.response.use((res)=>{
+    if (!res.data.flag){
+        Message.error(res.data.message);
+    }
+    Message.success(res.data.message);
     console.log(res);
+    return res;
 },(err)=>{
     console.log('异常',err.response);
     if (err.response.status === 400){

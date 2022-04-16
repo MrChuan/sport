@@ -5,6 +5,8 @@ import store from "./store";
 import '@/utils/ajax';
 //引入饿了么UI
 import '@/utils/elementui';
+//引入全局样式
+import '@/assets/global.css';
 
 Vue.config.productionTip = false;
 

@@ -55,7 +55,13 @@ export default {
         if(valid){
           //数据校验成功，则向后端发送请求，进行登陆
           this.$ajax.post('/user/login',this.from).then((res) =>{
-            //console.log(res);
+            const tokenBody =res.data.data;
+            let tokenHead = tokenBody.tokenHead;
+            let token = tokenBody.token;
+            //console.log("token",tokenHead + token);
+            //将拼接的token 存到本地目录store->index.js
+            this.$store.commit('setToken',tokenHead + token);
+            this.$router.push('/home');
           })
         }else {
           console.log("error =数据校验失败");

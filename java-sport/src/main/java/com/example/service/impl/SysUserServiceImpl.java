@@ -59,7 +59,7 @@ public class SysUserServiceImpl implements SysUserService {
     public Result login(LoginVo loginvo) {
         log.info("1.登录");
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginvo.getUsername());
-        log.info("2.判断账号密码----");
+        log.info("2.判断账号密码");
         if (null == userDetails || !passwordEncoder.matches(loginvo.getPassword(),userDetails.getPassword())){
             return Result.fail("账号或者密码错误，请重新输入！");
         }

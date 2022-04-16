@@ -3,7 +3,6 @@ package com.example.mapper;
 import com.example.entity.SysRole;
 import com.example.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -13,17 +12,20 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper {
 
-
+    /**
+     * 根据用户名查询用户信息
+     * @param username
+     * @return
+     */
     SysUser findByUsername(String username);
 
+
     /**
-     * 根据用户ID查询权限信息
+     * 查询用户角色
+     * @param userId
+     * @return
      */
-
-
     List<SysRole> findRoles(Long userId);
-
-
 
     /**
      * 查询所有数据

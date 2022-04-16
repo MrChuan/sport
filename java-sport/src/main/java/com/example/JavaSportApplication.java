@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.example.mapper")
 @SpringBootApplication
 public class JavaSportApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(JavaSportApplication.class, args);
     }

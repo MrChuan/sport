@@ -65,7 +65,4 @@
         select * from sys_menu where id in( select menu_id from sys_menus where role_id = #{id}) and parent_id is null
     </select>
 
-
-
-
 </mapper>

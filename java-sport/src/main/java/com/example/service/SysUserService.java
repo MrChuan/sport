@@ -27,13 +27,17 @@ public interface SysUserService {
     Result login(LoginVo loginvo);
 
     /**
+     * 根据用户名查询用户信息
      * @param username
      * @return 返回用户数组
      */
     SysUser findByUsername(String username);
 
 
-
-
+    /**
+     * 根据用户id查询角色信息
+     * @param userId
+     * @return
+     */
     List<SysRole> findRolesByUserId(Long userId);
 }

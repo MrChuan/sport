@@ -9,7 +9,7 @@
           个人运动管理平台<span>--管理员({{name}})</span>
         </el-col>
         <el-col class="logout" :span="7">
-          <el-button type="info">退出登录</el-button>
+          <el-button type="info" @click="logout">退出登录</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -73,10 +73,19 @@
 </template>
 
 <script>
+//需要用到缓存
+import {mapState} from 'vuex';
 export default {
+  //计算属性
+  computed:{
+    ...mapState(['name',"menus"])
+  },
+  created() {
+
+    //console.log("created-->name: " + this.name);
+  },
   data () {
     return {
-      name:"admin",
       isCollapse: true
     };
   },
@@ -86,6 +95,28 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    logout(){
+       this.$confirm('确定退出, 是否继续?', '提示', {
+        confirmButtonText: '退出',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+           this.$ajax.get('/user/login').then((res) =>{
+           console.log(res);
+           //清空本地缓存
+           sessionStorage.clear();
+           //跳转到登录页面
+           this.$router.replace('/login');
+           this.$message.success(res.data.message);
+         });
+      }).catch(() => {
+        this.$message({
+          //取消当前操作
+          type: 'info',
+          message: '已取消操作'
+        });
+      });
     }
   }
 }

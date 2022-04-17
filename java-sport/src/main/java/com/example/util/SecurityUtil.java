@@ -14,7 +14,9 @@ public class SecurityUtil {
      * @return
      */
     public static SysUser getUser(){
-        return (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SysUser user =  (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setPassword(null);
+        return user;
     }
 
     /**

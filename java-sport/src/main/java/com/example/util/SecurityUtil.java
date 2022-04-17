@@ -1,12 +1,14 @@
 package com.example.util;
 
 import com.example.entity.SysUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * 用于获取当前登陆用户的基本信息
  * @author chuan
  */
+@Slf4j
 public class SecurityUtil {
 
     /**
@@ -16,7 +18,9 @@ public class SecurityUtil {
     public static SysUser getUser(){
         SysUser user =  (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setPassword(null);
+        //log.info("getUser："+user);
         return user;
+
     }
 
     /**

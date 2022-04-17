@@ -77,7 +77,6 @@ public class SysUser implements UserDetails {
             //添加权限数据
             permissions.forEach(item -> list.add(new SimpleGrantedAuthority(item.getCode())));
         }
-
         return list;
     }
 

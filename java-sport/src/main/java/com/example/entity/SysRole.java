@@ -19,7 +19,7 @@ public class SysRole {
 
     private long id;
 
-    private String lable;
+    private String label;
 
     private String code;
 

@@ -24,7 +24,7 @@ public class GlobleException {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = RuntimeException.class)
     public Result exception(RuntimeException e){
-        e.printStackTrace();
+        //e.printStackTrace();
         log.error("系统运行时异常--->{}",e.getMessage());
         return Result.fail(e.getMessage());
     }

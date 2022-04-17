@@ -41,7 +41,7 @@ public interface SysUserMapper {
 
     /**
      * 根据父类id 和 用户id  获取用户子菜单
-     * @param id
+     * @param parentId
      * @param useId
      * @return
      */

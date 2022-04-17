@@ -12,7 +12,9 @@ import lombok.Data;
 @Data
 public class SysPermission {
 
-    private long userId;
+    private long id;
 
-    private Long roleId;
+    private String label;
+
+    private String code;
 }

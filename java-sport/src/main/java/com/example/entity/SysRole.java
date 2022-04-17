@@ -23,14 +23,6 @@ public class SysRole {
 
     private String code;
 
-    /**
-     * 角色对应的菜单列表
-     */
-    private List<SysMenu> menus;
-    /**
-     * 数据权限
-     */
-    private List<SysPermission> permissions;
 
 
 }

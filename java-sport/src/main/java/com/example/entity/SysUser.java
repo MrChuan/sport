@@ -52,15 +52,32 @@ public class SysUser implements UserDetails {
     private List<SysRole> roles;
 
     /**
+     * 角色对应的菜单列表
+     */
+    @ApiModelProperty(value = "菜单信息")
+    private List<SysMenu> menus;
+    /**
+     * 数据权限
+     */
+    @ApiModelProperty(value = "用户对应的权限数据")
+    private List<SysPermission> permissions;
+
+    /**
      * 权限数据
      * @return
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
-        roles.forEach(item ->{
-            list.add(new SimpleGrantedAuthority("ROLE_" + item.getCode()));
-        });
+        if (roles != null && roles.size() > 0){
+            roles.forEach(item ->list.add(new SimpleGrantedAuthority("ROLE_" + item.getCode())));
+        }
+
+        if (permissions != null && permissions.size() > 0){
+            //添加权限数据
+            permissions.forEach(item -> list.add(new SimpleGrantedAuthority(item.getCode())));
+        }
+
         return list;
     }
 

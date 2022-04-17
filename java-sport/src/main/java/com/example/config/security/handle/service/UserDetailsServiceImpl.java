@@ -1,5 +1,6 @@
 package com.example.config.security.handle.service;
 
+import com.example.entity.SysMenu;
 import com.example.entity.SysRole;
 import com.example.entity.SysUser;
 import com.example.mapper.SysUserMapper;
@@ -36,14 +37,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         //
         if (user.isAdmin()){
-            List<SysRole> list = new ArrayList<>();
-            SysRole sysRole = new SysRole();
-            sysRole.setCode("admin");
-            list.add(sysRole);
-            user.setRoles(list);
-
+          user.setRoles(sysUserMapper.findRoles(null));
+          user.setPermissions(sysUserMapper.findPermissions(null));
+          List<SysMenu> menus = sysUserMapper.findMenus(null);
+            menus.forEach(item ->item.setChildren(sysUserMapper.findChildrenMenus(item.getId(),null)));
+          user.setMenus(menus);
         }else {
+            //非管理员需要查询
             user.setRoles(sysUserMapper.findRoles(user.getId()));
+
+            user.setPermissions(sysUserMapper.findPermissions(user.getId()));
+
+            List<SysMenu> menus = sysUserMapper.findMenus(user.getId());
+
+            menus.forEach(item->item.setChildren(sysUserMapper.findChildrenMenus(item.getId(), user.getId())));
+
+            user.setMenus(menus);
         }
         return user;
     }

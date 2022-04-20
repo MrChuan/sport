@@ -20,15 +20,15 @@ const ajax = axios.create({
 请求拦截器
  */
 ajax.interceptors.request.use((config) =>{
-        console.log('请求',config);
+        //console.log('请求拦截器响应');
         const token = sessionStorage.getItem('token');
         if (token){
-
+            //配置响应头
             config.headers['Authorization'] =token;
         }
         return config;
 },((err) => {
-        console.log('请求异常',err);
+        console.log('请求拦截器异常',err);
     })
     )
 
@@ -41,10 +41,10 @@ ajax.interceptors.response.use((res)=>{
         Message.error(res.data.message);
     }
     Message.success(res.data.message);
-    //console.log(res);
+    //console.log('响应拦截器成功');
     return res;
 },(err)=>{
-    //console.log('异常',err.response);
+    console.log('响应拦截器异常');
     if (err.response.status === 400){
         Message.error(err.response.data.message);
     }else if(err.response.status === 401){

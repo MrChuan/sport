@@ -18,42 +18,32 @@
         <div style="font-size: 20px; background-color: #3077c9; color: #fff; cursor: pointer;" @click="isCollapse = !isCollapse">
           <i class="el-icon-s-fold" ></i>
         </div>
+        <!--菜单列表 unique-opened只展开一个子菜单
+                   router是让菜单为路由模式， 菜单中index属性为path
+        -->
             <el-menu
                 default-active="2"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
-                :collapse="isCollapse">
-              <el-submenu index="1">
+                unique-opened
+                router
+                :collapse="isCollapse"
+                >
+              <el-submenu :index="index+ ''" v-for="(parentMenu,index) in menus" :key="index">
                 <template slot="title">
-                  <i class="el-icon-location"></i>
-                  <span>导航一</span>
+                  <i :class="parentMenu.icon"/>
+                  <span>{{parentMenu.title}}</span>
                 </template>
-                <el-menu-item-group>
-                  <template slot="title">分组一</template>
-                  <el-menu-item index="1-1">选项1</el-menu-item>
-                  <el-menu-item index="1-2">选项2</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="分组2">
-                  <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-menu-item-group>
-                <el-submenu index="1-4">
-                  <template slot="title">选项4</template>
-                  <el-menu-item index="1-4-1">选项1</el-menu-item>
-                </el-submenu>
+
+                  <el-menu-item :index="childrenMenu.path" v-for="(childrenMenu,i) in parentMenu.children" :key="i" >
+                    <template slot="title">
+                      <i :class="childrenMenu.icon"/>
+                      <span>{{childrenMenu.title}}</span>
+                    </template>
+                  </el-menu-item>
+
               </el-submenu>
-              <el-menu-item index="2">
-                <i class="el-icon-menu"></i>
-                <span slot="title">导航二</span>
-              </el-menu-item>
-              <el-menu-item index="3" disabled>
-                <i class="el-icon-document"></i>
-                <span slot="title">导航三</span>
-              </el-menu-item>
-              <el-menu-item index="4">
-                <i class="el-icon-setting"></i>
-                <span slot="title">导航四</span>
-              </el-menu-item>
             </el-menu>
       </el-aside>
       <el-main>
@@ -63,11 +53,10 @@
           <el-breadcrumb-item>活动列表</el-breadcrumb-item>
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
         </el-breadcrumb>
-
-        <span class="main-title">欢迎来到个人运动管理平台！</span>
+        <span v-show="true" class="main-title">欢迎来到个人运动管理平台！</span>
+        <!----作为主体的子路由跳转---->
+        <router-view/>
       </el-main>
-
-
     </el-container>
   </el-container>
 </template>
@@ -78,23 +67,23 @@ import {mapState} from 'vuex';
 export default {
   //计算属性
   computed:{
-    ...mapState(['name',"menus"])
+    ...mapState(['name',"avatar","menus"])
   },
   created() {
-
+    console.log('菜单',this.menus)
     //console.log("created-->name: " + this.name);
   },
   data () {
     return {
-      isCollapse: true
+      isCollapse: false
     };
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      //console.log(key, keyPath);
     },
     logout(){
        this.$confirm('确定退出, 是否继续?', '提示', {
@@ -103,7 +92,7 @@ export default {
         type: 'warning'
       }).then(() => {
            this.$ajax.get('/user/login').then((res) =>{
-           console.log(res);
+           console.log("登录退出:" + res.data.message);
            //清空本地缓存
            sessionStorage.clear();
            //跳转到登录页面

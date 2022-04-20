@@ -4,6 +4,9 @@ import Login from '@/views/login';
 import Home from '@/views/Home';
 import ajax from '@/utils/ajax';
 import store from "@/store";
+import {formatMenu} from "@/utils/initMenus";
+import user from "@/views/system/user";
+
 
 Vue.use(VueRouter);
 
@@ -11,10 +14,6 @@ const routes = [
   {
     path:'/login',
     component: Login,
-  },
-  {
-    path: '/home',
-    component: Home,
   },
   {
     path: '/',
@@ -42,24 +41,24 @@ router.beforeEach((to,from,next)=>{
       next('/login?redirect=${to.fullPath}');
     }
   }else {
-    //判断vuex中是否存在用户基本信息
-    if (!store.state.roles || store.state.roles.length < 1){
-      //向后端发送请求，获取用户基本信息
-      ajax.get('/user/getInfo').then((res) =>{
-        console.log('router:用户基本信息',res);
-        const user = res.data.data;
-        store.commit('setName',user.username);
-        store.commit('setAvatar',user.avatar);
-        if (user.roles.length > 0){
-          //添加角色 菜单 权限
-          store.commit('setRoles',user.roles);
-          store.commit("setMenus",user.menus);
-          store.commit("setPermissions",user.permissions);
-        }
-        return res;
-      });
-    }
+    //向后端发送请求，获取用户基本信息
+    ajax.get('/user/getInfo').then((res) =>{
+      console.log('router:用户基本信息',res);
+      const user = res.data.data;
+      store.commit('setName',user.username);
+      store.commit('setAvatar',user.avatar);
+      if (user.roles.length > 0){
+        //添加角色 菜单 权限
+        store.commit('setRoles',user.roles);
+        //格式化菜单
+        const menuList = formatMenu(user.menus);
+        router.addRoutes(menuList);
+        //存到内存中
+        store.commit("setMenus",menuList);
 
+        store.commit("setPermissions",user.permissions);
+      }
+    });
     //已经登陆
     if (to.path === '/login'){
         next("/");

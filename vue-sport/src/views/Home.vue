@@ -49,11 +49,10 @@
       <el-main>
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="(item,index) in $router.currentRoute.matched" :key="index">{{item.meta.title}}</el-breadcrumb-item>
+
         </el-breadcrumb>
-        <span v-show="true" class="main-title">欢迎来到个人运动管理平台！</span>
+        <span v-show="$router.currentRoute.path === '/'" class="main-title">欢迎来到个人运动管理平台！</span>
         <!----作为主体的子路由跳转---->
         <router-view/>
       </el-main>
@@ -70,7 +69,7 @@ export default {
     ...mapState(['name',"avatar","menus"])
   },
   created() {
-    console.log('菜单',this.menus)
+    //console.log('菜单',this.menus)
     //console.log("created-->name: " + this.name);
   },
   data () {

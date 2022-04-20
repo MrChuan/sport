@@ -15,6 +15,8 @@ export const formatMenu = (menus) => {
         //
         item.component = (item.component === 'home') ? Home : loadView(item.component);
 
+        item.meta ={title : item.title}
+
         //处理子菜单
         if (item.children && item.children.length > 0){
             formatMenu(item.children);

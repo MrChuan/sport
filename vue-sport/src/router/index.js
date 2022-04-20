@@ -31,6 +31,7 @@ const router = new VueRouter({
  * next:放行到那个页面
  */
 router.beforeEach((to,from,next)=>{
+  console.log("vueRouter:",router)
   //判断用户是否登录
   const token = sessionStorage.getItem('token');
   if (!token){

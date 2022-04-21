@@ -61,7 +61,7 @@ export default {
             //console.log("token",tokenHead + token);
             //将拼接的token 存到本地目录store->index.js
             this.$store.commit('setToken',tokenHead + token);
-            this.$router.push('/home');
+            this.$router.push('/');
           })
         }else {
           console.log("error =数据校验失败");

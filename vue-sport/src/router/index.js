@@ -31,7 +31,7 @@ const router = new VueRouter({
  * next:放行到那个页面
  */
 router.beforeEach((to,from,next)=>{
-  console.log("vueRouter:",router)
+  //console.log("vueRouter:",router)
   //判断用户是否登录
   const token = sessionStorage.getItem('token');
   if (!token){
@@ -44,7 +44,7 @@ router.beforeEach((to,from,next)=>{
   }else {
     //向后端发送请求，获取用户基本信息
     ajax.get('/user/getInfo').then((res) =>{
-      console.log('router:用户基本信息',res);
+      //console.log('router:用户基本信息',res);
       const user = res.data.data;
       store.commit('setName',user.username);
       store.commit('setAvatar',user.avatar);

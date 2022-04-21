@@ -7,6 +7,7 @@ import '@/utils/ajax';
 import '@/utils/elementui';
 //引入全局样式
 import '@/assets/global.css';
+import '@/utils/permission';
 
 Vue.config.productionTip = false;
 

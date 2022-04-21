@@ -32,13 +32,13 @@
                 >
               <el-submenu :index="index+ ''" v-for="(parentMenu,index) in menus" :key="index">
                 <template slot="title">
-                  <i :class="parentMenu.icon"/>
+                  <i :class="parentMenu.icon" style="margin-right: 8px"/>
                   <span>{{parentMenu.title}}</span>
                 </template>
 
                   <el-menu-item :index="childrenMenu.path" v-for="(childrenMenu,i) in parentMenu.children" :key="i" >
                     <template slot="title">
-                      <i :class="childrenMenu.icon"/>
+                      <i :class="childrenMenu.icon" style="margin-right: 8px" />
                       <span>{{childrenMenu.title}}</span>
                     </template>
                   </el-menu-item>

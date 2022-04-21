@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,9 @@ public class SysUser implements UserDetails {
 
     @ApiModelProperty(value = "用户名")
     private String username;
+
+    @ApiModelProperty(value = "前端登陆用户名")
+    private String name;
 
     @ApiModelProperty(value = "密码")
     private String password;
@@ -64,9 +68,13 @@ public class SysUser implements UserDetails {
 
     /**
      * 权限数据
+     * 本身不属于user中属性信息 在redis序列化中无法排序报错：Could not read JSON: Problem deserializing 'setterless' property ("authorities"): no way to handle typed deser with setterless yet
+     * 解决：@JsonIgnore 添加  忽略序列化
+     *
      * @return
      */
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
         if (roles != null && roles.size() > 0){
@@ -86,6 +94,7 @@ public class SysUser implements UserDetails {
      * @return
      */
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return false;
     }
@@ -95,6 +104,7 @@ public class SysUser implements UserDetails {
      * @return
      */
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return false;
     }
@@ -104,6 +114,7 @@ public class SysUser implements UserDetails {
      * @return
      */
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return false;
     }
@@ -113,6 +124,7 @@ public class SysUser implements UserDetails {
      * @return
      */
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return status;
     }

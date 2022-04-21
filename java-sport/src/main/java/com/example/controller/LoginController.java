@@ -27,7 +27,6 @@ public class LoginController {
     @PostMapping("/login")
     @ApiOperation(value = "登录接口")
     public Result login(@RequestBody LoginVo loginvo){
-
         return userService.login(loginvo);
     }
     @GetMapping("/getInfo")

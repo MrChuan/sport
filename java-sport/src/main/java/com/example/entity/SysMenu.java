@@ -24,8 +24,13 @@ public class SysMenu {
 
     private String icon;
 
+    /**
+     * 菜单标题
+     */
     private  String title;
-
+    /**
+     *前端组件
+     */
     private String component;
     /**
      * 子菜单

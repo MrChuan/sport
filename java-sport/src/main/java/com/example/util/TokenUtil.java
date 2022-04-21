@@ -35,14 +35,11 @@ public class TokenUtil {
      */
     public String generateToken(UserDetails details){
         Map<String,Object> map = new HashMap<>(2);
-
         map.put(CLAIM_KEY_USERNAME, details.getUsername());
         map.put(CLAIM_KEY_CREATED,new Date());
-
         return generateJwt(map);
 
     }
-
     /**
      * @param map
      * @return
@@ -55,9 +52,6 @@ public class TokenUtil {
                 .compact();
 
     }
-
-
-
     /**
      * 通过Token获取荷载信息
      * @param token

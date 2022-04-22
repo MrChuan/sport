@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,9 +13,12 @@ import lombok.Data;
 @Data
 public class SysPermission {
 
+    @ApiModelProperty(value = "主键")
     private long id;
 
+    @ApiModelProperty(value = "权限名称")
     private String label;
 
+    @ApiModelProperty(value = "权限便签值")
     private String code;
 }

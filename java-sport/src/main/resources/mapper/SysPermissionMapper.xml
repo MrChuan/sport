@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SysPermissionMapper">
+
+
+    <select id="findPage" resultType="com.example.entity.SysPermission">
+        select * from sys_permission
+        <if test="queryString != null and queryString.length > 0">
+            where label like concat('%' , #{queryString},'%') or code like concat('%' , #{queryString},'%')
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.SysPermission">
+        insert into sys_permission(label, `code`) values (#{label}, #{code})
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from sys_permission where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.entity.SysPermission">
+        update sys_permission
+        <set>
+            <if test="label != null">
+            label = #{label},
+            </if>
+            <if test="code != null">
+                `code` = #{code}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

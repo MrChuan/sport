@@ -12,7 +12,7 @@ import java.util.List;
  * 用户操作逻辑业务接口
  * @author chuan
  */
-@Service
+
 public interface SysUserService {
     /**
      * 获取所有用户信息

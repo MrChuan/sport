@@ -29,8 +29,8 @@ import java.util.Map;
 public class SysUserServiceImpl implements SysUserService {
 
 
-    //此处如果实用@Autowired，则会报错No beans of 'sysUserMapper' type found
-    //
+    //此处如果使用@Autowired，则会报错No beans of 'sysUserMapper' type found
+    //需要在mapper上加上@Mapper
 
     @Autowired
     private SysUserMapper sysUserMapper;

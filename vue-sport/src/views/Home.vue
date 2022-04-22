@@ -133,7 +133,7 @@ scoped受保护的样式，当前style标签下的样式只在当前组件生效
   background-color: #E9EEF3;
   color: #333;
   text-align: center;
-  line-height: 160px;
+
 }
 
 body > .el-container {

@@ -40,7 +40,7 @@ public class SysPermissionController {
     /**
      * 修改
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "权限修改")
     public Result update(@RequestBody SysPermission permission){
         return sysPermissionService.update(permission);

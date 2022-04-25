@@ -14,7 +14,7 @@
       </el-row>
     </el-header>
     <el-container>
-      <el-aside :width="isCollapse ? '60px' : '200px'">
+      <el-aside :width="isCollapse ? '200px' : '60px'">
         <div style="font-size: 20px; background-color: #3077c9; color: #fff; cursor: pointer;" @click="isCollapse = !isCollapse">
           <i class="el-icon-s-fold" ></i>
         </div>
@@ -22,34 +22,36 @@
                    router是让菜单为路由模式， 菜单中index属性为path
         -->
             <el-menu
-                default-active="2"
+                :default-active="activePath"
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
                 unique-opened
                 router
-                :collapse="isCollapse"
+                :collapse="!isCollapse"
                 >
               <el-submenu :index="index+ ''" v-for="(parentMenu,index) in menus" :key="index">
                 <template slot="title">
                   <i :class="parentMenu.icon" style="margin-right: 8px"/>
                   <span>{{parentMenu.title}}</span>
                 </template>
-
-                  <el-menu-item :index="childrenMenu.path" v-for="(childrenMenu,i) in parentMenu.children" :key="i" >
+                <!--子菜单-->
+                  <el-menu-item :index="childrenMenu.path" v-for="(childrenMenu,i) in parentMenu.children"
+                                :key="i" @click="savePath(childrenMenu.path)" >
                     <template slot="title">
                       <i :class="childrenMenu.icon" style="margin-right: 8px" />
                       <span>{{childrenMenu.title}}</span>
                     </template>
                   </el-menu-item>
-
               </el-submenu>
             </el-menu>
       </el-aside>
       <el-main>
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item v-for="(item,index) in $router.currentRoute.matched" :key="index">{{item.meta.title}}</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="(item,index) in $router.currentRoute.matched" :key="index">
+            {{item.meta.title}}
+          </el-breadcrumb-item>
 
         </el-breadcrumb>
         <span v-show="$router.currentRoute.path === '/'" class="main-title">欢迎来到个人运动管理平台！</span>
@@ -70,11 +72,16 @@ export default {
   },
   created() {
     //console.log('菜单',this.menus)
-    //console.log("created-->name: " + this.name);
+
   },
   data () {
     return {
-      isCollapse: false
+      //侧边导航展开
+      isCollapse: true,
+      //菜单是否展开
+      menuActive:true,
+      //当前菜单路径
+      activePath:sessionStorage.getItem('activePath'),
     };
   },
   methods: {
@@ -105,6 +112,15 @@ export default {
           message: '已取消操作'
         });
       });
+    },
+    /**
+     * 保存被激活的链接
+     * @param path
+     */
+    savePath(path){
+
+      sessionStorage.setItem('activePath',path);
+      this.activePath = path;
     }
   }
 }

@@ -14,7 +14,7 @@ export const formatMenu = (menus) => {
     const  route = menus.filter(item =>{
         //
         item.component = (item.component === 'home') ? Home : loadView(item.component);
-        item.icon ='iconfont ' +item.icon;
+        item.icon = item.icon;
         item.meta ={title : item.title}
 
         //处理子菜单

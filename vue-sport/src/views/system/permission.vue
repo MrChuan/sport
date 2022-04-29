@@ -8,7 +8,7 @@
           </el-input>
         </el-col>
         <el-col :span="2">
-          <el-button @click="insert" type="primary" style="margin-left: 10px">添加权限信息</el-button>
+          <el-button @click="insert" type="primary" v-hasPermi="['PER_INSERT']" style="margin-left: 10px">添加权限信息</el-button>
         </el-col>
         <el-dialog :title="title" :visible.sync="dialogFormVisible" @close="dialogClose">
           <el-form :model="form" :rules="rules" ref="form">
@@ -27,11 +27,16 @@
       </el-row>
 
       <el-table :data="tableData"  stripe>
-        <el-table-column type="index"  label="序号" width="180" align="center">
-        </el-table-column>
-        <el-table-column prop="label" label="权限名称" width="180" align="center">
-        </el-table-column>
-        <el-table-column prop="code" label="权限值"  align="center">
+        <el-table-column type="index"  label="序号" width="180" align="center" />
+
+        <el-table-column prop="label" label="权限名称" width="180" align="center"/>
+
+        <el-table-column prop="code" label="权限值"  align="center"/>
+
+        <el-table-column label="是否启用"  align="center">
+          <template slot-scope="scope" >
+            <el-switch @change="updateStatus(scope.row)" v-model="scope.row.status"/>
+          </template>
         </el-table-column>
         <el-table-column  label="操作"  align="center">
           <template slot-scope="scope">
@@ -98,7 +103,7 @@ export default {
   },
   methods: {
     insert(){
-      console.log('添加操作',this.form);
+      //console.log('添加操作',this.form);
       this.title = "添加权限";
       this.dialogFormVisible = true;
 
@@ -154,12 +159,18 @@ export default {
         this.total = res.data.total;
       });
     },
+    /**
+     * 编辑事件
+     */
     handleEdit(row) {
-      console.log(row);
+      //console.log(row);
       this.title = "修改权限";
       this.form = row;
       this.dialogFormVisible = true;
     },
+    /**
+     * 删除按钮事件
+     */
     handleDelete(id) {
       console.log(id);
       this.$confirm(`编号${id}将永久删除，是否继续`,'提示',{
@@ -171,9 +182,7 @@ export default {
         this.$ajax.delete(`permission/delete/${id}`).then((res)=>{
           this.$message.success(res.data.message);
           //解决如果一页只有一条数据时查询报错问题
-
           this.findPage();
-
           this.queryInfo.pageNumber = 1;
 
         })
@@ -196,6 +205,14 @@ export default {
       console.log(`当前页: ${val}`);
       this.queryInfo.pageNumber = val;
       this.findPage();
+    },
+
+    updateStatus(row){
+      //console.log(row);
+      this.$ajax.put('/permission/update',row).then((res)=>{
+        this.$message.success("状态更新成功！");
+        //this.findPage();
+      })
     }
   }
 }

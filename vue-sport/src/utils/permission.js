@@ -1,7 +1,5 @@
 import Vue from "vue";
 import store from '@/store';
-import permission from "@/views/system/permission";
-import {iterator} from "core-js/stable/dom-collections";
 
 /**
  * directive 自定义指令的方法
@@ -12,7 +10,7 @@ Vue.directive('hasRole',{
     inserted(el,binding){
         //获取指令传过来的数据
         const { value } = binding;
-        console.log(value);
+       // console.log(value);
 
         //获取角色信息
         const roles =store.state.roles;

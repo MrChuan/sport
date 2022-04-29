@@ -53,6 +53,7 @@ router.beforeEach((to,from,next)=>{
         store.commit('setRoles',user.roles);
         //格式化菜单
         const menuList = formatMenu(user.menus);
+
         router.addRoutes(menuList);
         //存到内存中
         store.commit("setMenus",menuList);

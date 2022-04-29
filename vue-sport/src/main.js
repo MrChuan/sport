@@ -7,10 +7,13 @@ import '@/utils/ajax';
 import '@/utils/elementui';
 //引入全局样式
 import '@/assets/global.css';
+// 引入自定义指令
 import '@/utils/permission';
-import '@/assets/iconfont/iconfont.css';
+// 引入图标库组件
+import '@/utils/icon';
 
 Vue.config.productionTip = false;
+Vue.config.devtools = false;
 
 new Vue({
   router,

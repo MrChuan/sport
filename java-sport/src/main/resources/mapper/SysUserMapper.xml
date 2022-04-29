@@ -20,13 +20,14 @@
         <collection property="roles" ofType="com.example.entity.SysRole"  select="findRoles" column="id"/>
 
     </resultMap>
-
+    <!--角色结果-->
     <resultMap id="roleMap" type="com.example.entity.SysRole">
         <id column="id" property="id"/>
         <result column="label" property="label"/>
         <result column="code" property="code"/>
+        <result column="status" property="status"/>
     </resultMap>
-
+    <!--菜单结果-->
     <resultMap id="menuMap" type="com.example.entity.SysMenu">
         <id column="id" property="id"/>
         <result column="path" property="path"/>
@@ -34,12 +35,14 @@
         <result column="title" property="title"/>
         <result column="component" property="component"/>
 
+        <result column="status" property="status"/>
     </resultMap>
-
+    <!--权限结果-->
     <resultMap id="permissionMap" type="com.example.entity.SysPermission">
         <id column="id" property="id"/>
         <result column="label" property="label"/>
         <result column="code" property="code"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <select id="findAll" resultType="com.example.entity.SysUser">
@@ -52,30 +55,30 @@
     </select>
     <!-- 根据用户ID查询角色信息-->
     <select id="findRoles" parameterType="long" resultMap="roleMap">
-        select * from sys_role
-        <if test="userId != null">
-         where id in (select role_id from sys_roles where user_id = #{userId})
+        select * from sys_role where status = 1
+        <if test="userId != null" >
+         and id in (select role_id from sys_roles where user_id = #{userId})
         </if>
     </select>
 
     <!-- 根据角色ID查询数据权限信息-->
     <select id="findPermissions" parameterType="long" resultMap="permissionMap" >
-        select * from sys_permission
+        select * from sys_permission where status = 1
         <if test="userId != null">
-            where id in (select permission_id from sys_permissions where role_id in (select role_id from sys_roles where user_id = #{userId}))
+            and id in (select permission_id from sys_permissions where role_id in (select role_id from sys_roles where user_id = #{userId}))
         </if>
     </select>
 
     <!-- 根据角色ID查询菜单信息 -->
     <select id="findMenus"  parameterType="long" resultMap="menuMap">
-        select * from sys_menu where parent_id is null
+        select * from sys_menu where parent_id = 0 and status = 1
         <if test="userId != null">
            and id in (select menu_id from sys_menus where role_id in (select role_id from sys_roles where user_id = #{userId}))
         </if>
     </select>
-<!-- parent_id = #{parentId}    and -->
+<!-- 获取子菜单  parent_id = #{parentId}    and -->
     <select id="findChildrenMenus" parameterType="long" resultType="com.example.entity.SysMenu">
-        select * from sys_menu where parent_id = #{parentId}
+        select * from sys_menu where parent_id = #{parentId} and status = 1
         <if test="userId != null">
             and id in (select menu_id from sys_menus where role_id in (select role_id from sys_roles where user_id = #{userId}))
         </if>

@@ -1,8 +1,8 @@
 package com.example.service.impl;
 
-import com.example.entity.SysPermission;
-import com.example.mapper.SysPermissionMapper;
-import com.example.service.SysPermissionService;
+import com.example.entity.SysMenu;
+import com.example.mapper.SysMenuMapper;
+import com.example.service.SysMenuService;
 import com.example.util.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -17,11 +17,10 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class SysPermissionServiceImpl implements SysPermissionService {
+public class SysMenuServiceImpl implements SysMenuService {
 
     @Autowired
-    private SysPermissionMapper sysPermissionMapper;
-
+    private SysMenuMapper sysMenuMapper;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -29,14 +28,14 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 
     @Override
     public Result findPage(QueryInfo queryInfo) {
-        log.info("开始权限数据分页-->页码{},--->{}页数，---->查询内容{}",queryInfo.getPageNumber(),queryInfo.getPageSize(),queryInfo.getQueryString());
+        log.info("开始菜单数据分页-->页码{},--->{}页数，---->查询内容{}",queryInfo.getPageNumber(),queryInfo.getPageSize(),queryInfo.getQueryString());
         //开始分页
         PageHelper.startPage(queryInfo.getPageNumber(),queryInfo.getPageSize());
         //去分页数据
-        Page<SysPermission> page = sysPermissionMapper.findPage(queryInfo.getQueryString());
+        Page<SysMenu> page = sysMenuMapper.findPage(queryInfo.getQueryString());
 
         long total = page.getTotal();
-        List<SysPermission> result = page.getResult();
+        List<SysMenu> result = page.getResult();
         log.info("查询分页总数-->{}",total);
 
         log.info("分页结果--->{}",total);
@@ -44,24 +43,30 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     }
 
     @Override
-    public Result insert(SysPermission permission) {
-        sysPermissionMapper.insert(permission);
+    public Result insert(SysMenu menu) {
+        sysMenuMapper.insert(menu);
+        //更新信息就去操作缓存里面的数据
         redisUtil.delKey("userInfo_" + SecurityUtil.getUsername());
         return Result.success("添加成功");
     }
 
     @Override
     public Result delete(Long id) {
-        sysPermissionMapper.delete(id);
+        sysMenuMapper.delete(id);
         redisUtil.delKey("userInfo_" + SecurityUtil.getUsername());
         return Result.success("删除成功");
     }
 
     @Override
-    public Result update(SysPermission permission) {
-        sysPermissionMapper.update(permission);
+    public Result update(SysMenu menu) {
+        sysMenuMapper.update(menu);
         redisUtil.delKey("userInfo_" + SecurityUtil.getUsername());
         return Result.success("修改成功");
+    }
+
+    @Override
+    public Result findParent() {
+        return Result.success("查询父级菜单成功",sysMenuMapper.findParent());
     }
 
 }

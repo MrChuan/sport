@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SysMenuMapper">
+    <!--菜单结果-->
+    <resultMap id="menuMap" type="com.example.entity.SysMenu">
+        <id column="id" property="id"/>
+        <result column="path" property="path"/>
+        <result column="icon" property="icon"/>
+        <result column="title" property="title"/>
+        <result column="component" property="component"/>
+
+        <result column="status" property="status"/>
+        <collection property="children" select="findChildrenMenus" column="id" ofType="com.example.entity.SysMenu"/>
+    </resultMap>
+
+    <select id="findParent" resultType="com.example.entity.SysMenu">
+        select * from sys_menu where parent_id = 0
+    </select>
+    <!--有集合的需要  增加resultMap="menuMap" -->
+    <select id="findPage" resultMap="menuMap">
+        select * from sys_menu where parent_id = 0
+        <if test="queryString != null and queryString.length > 0">
+            and title like concat('%' , #{queryString},'%')
+        </if>
+    </select>
+    <!--用一个结果集-->
+    <select id="findChildrenMenus" parameterType="long" resultType="com.example.entity.SysMenu">
+        select * from sys_menu where parent_id = #{parentId}
+    </select>
+
+
+    <insert id="insert" parameterType="com.example.entity.SysMenu">
+        insert into sys_menu(path, icon, title, component, parent_id, status) values (#{path}, #{icon}, #{title}, #{component}, #{parentId}, #{status})
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from sys_menu where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.entity.SysMenu">
+        update sys_menu
+        <set>
+            <if test="path != null">
+                path = #{path},
+            </if>
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="component != null">
+                component = #{component},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

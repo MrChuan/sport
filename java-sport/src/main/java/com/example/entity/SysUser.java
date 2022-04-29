@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.example.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -77,13 +78,25 @@ public class SysUser implements UserDetails {
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
+
         if (roles != null && roles.size() > 0){
-            roles.forEach(item ->list.add(new SimpleGrantedAuthority("ROLE_" + item.getCode())));
+            roles.forEach(item ->{
+
+                if (StringUtil.isNotEmpty(item.getCode())){
+                    list.add(new SimpleGrantedAuthority("ROLE_" + item.getCode()));
+                }
+            });
         }
 
         if (permissions != null && permissions.size() > 0){
             //添加权限数据
-            permissions.forEach(item -> list.add(new SimpleGrantedAuthority(item.getCode())));
+            //如果数据库权限信息为空，会报错；
+            //添加间接性判断
+            permissions.forEach(item ->{
+                if (item.getCode() !=null){
+                    list.add(new SimpleGrantedAuthority(item.getCode()));
+                }
+            });
         }
         return list;
     }

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class SysRole {
     private String label;
 
     private String code;
+
+    @ApiModelProperty(value = "角色启用状态")
+    private String status;
 
 
 

@@ -28,8 +28,9 @@
             label = #{label},
             </if>
             <if test="code != null">
-                `code` = #{code}
+                `code` = #{code},
             </if>
+            status = #{status}
         </set>
         where id = #{id}
     </update>

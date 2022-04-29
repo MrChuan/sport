@@ -33,19 +33,19 @@ public interface SysUserMapper {
 
     /**
      * 获取用户菜单
-     * @param useId
+     * @param userId
      * @return
      */
-    List<SysMenu> findMenus(@Param("userId") Long useId);
+    List<SysMenu> findMenus(@Param("userId") Long userId);
 
 
     /**
      * 根据父类id 和 用户id  获取用户子菜单
      * @param parentId
-     * @param useId
+     * @param userId
      * @return
      */
-    List<SysMenu> findChildrenMenus(@Param("parentId") Long parentId, @Param("userId") Long useId);
+    List<SysMenu> findChildrenMenus(@Param("parentId") Long parentId, @Param("userId") Long userId);
 
     /**
      * 根据用户Id查询用户权限信息

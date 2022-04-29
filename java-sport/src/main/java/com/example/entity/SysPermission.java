@@ -10,6 +10,7 @@ import lombok.Data;
  * 	role_id BIGINT(20) COMMENT'角色ID'
  */
 
+
 @Data
 public class SysPermission {
 
@@ -21,4 +22,7 @@ public class SysPermission {
 
     @ApiModelProperty(value = "权限便签值")
     private String code;
+
+    @ApiModelProperty(value = "启用状态")
+    private boolean status;
 }
